@@ -152,3 +152,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_USER = 'sana256@yandex.ru'
+EMAIL_HOST_PASSWORD = 'Kaka1987+'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'sana256@yandex.ru'

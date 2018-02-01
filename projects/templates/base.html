@@ -43,6 +43,28 @@
 	  </div>
 	</nav>
 
+	<div class="container">
+		{% if messages %}
+			<div class="row">
+				<div class="col-md-6 offset-md-3">
+					{% for message in messages %}
+						{% if message.level_tag == 'success' %}
+							<div class="alert alert-success"> {{ message }}
+							</div>
+						{% else %}
+							<div class="alert alert-warning"> {{ message }}
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		{% endif %}
+	{% block content %}
+
+	{% endblock %}
+	</div>
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 		<script src="/static/js/jquery-3.2.1.min.js"></script>
