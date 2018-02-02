@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'projects',
     'accounts',
+    'widget_tweaks',
 ]
 
 LOGGING = {
@@ -66,6 +67,8 @@ AUTH_USER_MODEL = 'accounts.User'
 
 
 LOGOUT_REDIRECT_URL = '/'
+
+LOGIN_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

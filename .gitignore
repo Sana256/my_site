@@ -1,0 +1,7 @@
+__pycache__
+*.pyc
+./static
+./static
+./venv
+./spec
+.env
