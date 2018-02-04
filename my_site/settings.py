@@ -34,7 +34,7 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
-    #'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -65,6 +65,7 @@ LOGGING = {
 
 AUTH_USER_MODEL = 'accounts.User'
 
+LOGIN_URL = '/accounts/login'
 
 LOGOUT_REDIRECT_URL = '/'
 

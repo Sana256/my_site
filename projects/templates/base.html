@@ -9,8 +9,16 @@
     <!-- Bootstrap CSS -->
 		<link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
 	    <link rel="stylesheet" href="{% static "css/base.css" %}">
-
-    <title>Hello, world!</title>
+		<title>
+		  {% block title %}
+		  {% endblock %}
+		</title>
+		<meta name="description" content="
+			{% block description %}
+			{% endblock %}">
+		<meta name="keywords" content="
+			{% block keywords %}
+			{% endblock %}">
   </head>
 
 
