@@ -12,7 +12,7 @@ class Project(models.Model):
     description = models.CharField(max_length=100)
     start_date = models.DateField(default=date.today)
     end_date = models.DateField(default=date.today)
-    in_work = models.BooleanField(default='False')
+    in_work = models.BooleanField(default=False)
 
 
     class Meta:
@@ -34,7 +34,7 @@ class List(models.Model):
 class Item(models.Model):
     list = models.ForeignKey(List, on_delete=models.CASCADE)
     text = models.TextField(default='', blank=False)
-    is_done = models.BooleanField(default='False')
+    is_done = models.BooleanField(default=False)
 
 
     class Meta:
@@ -51,7 +51,7 @@ class Event(models.Model):
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=100)
     date = models.DateTimeField(default=timezone.now)
-    is_done = models.BooleanField(default='False')
+    is_done = models.BooleanField(default=False)
 
 
     class Meta:
