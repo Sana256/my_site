@@ -117,6 +117,13 @@ DATABASES = {
     }
 }
 
+#date and time formats
+
+DATE_FORMAT = 'd.m.Y'
+
+TIME_FORMAT = 'p'
+
+DATETIME_FORMAT = 'd.m.Y p'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

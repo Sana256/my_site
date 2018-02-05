@@ -3,7 +3,7 @@ import datetime
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
-from projects.models import Project, List, Item, Action, WorkDay
+from projects.models import Project, List, Item, Event, WorkDay
 User = get_user_model()
 
 

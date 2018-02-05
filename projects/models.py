@@ -68,3 +68,7 @@ class WorkDay(models.Model):
     elapsed_time = models.DurationField()
     date = models.DateField(default=date.today)
     in_work = models.BooleanField(default=False)
+
+
+    def __str__(self):
+        return self.date
