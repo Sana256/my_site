@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 from django.db import models
 from django.conf import settings
@@ -6,6 +6,7 @@ from django.utils import timezone
 
 
 class Project(models.Model):
+    #TODO add file stores and image for every project
     developer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='projects')
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=40)
@@ -24,16 +25,16 @@ class Project(models.Model):
 
 
 class List(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, related_name='lists')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='lists')
 
 
     def __str__(self):
-        return self.id
+        return f'{self.id}'
 
 
 class Item(models.Model):
     list = models.ForeignKey(List, on_delete=models.CASCADE)
-    text = models.TextField(default='', blank=False)
+    text = models.TextField(blank=False)
     is_done = models.BooleanField(default=False)
 
 
@@ -47,15 +48,15 @@ class Item(models.Model):
 
 
 class Event(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, related_name='events')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='events')
     name = models.CharField(max_length=30)
-    description = models.CharField(max_length=100)
-    date = models.DateTimeField(default=timezone.now)
+    description = models.CharField(max_length=100, blank=True)
+    datetime = models.DateTimeField(default=timezone.now)
     is_done = models.BooleanField(default=False)
 
 
     class Meta:
-        ordering = ('-date',)
+        ordering = ('-datetime',)
 
 
     def __str__(self):
@@ -64,11 +65,24 @@ class Event(models.Model):
 
 class WorkDay(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='work_days')
-    start_time = models.DateTimeField(default=timezone.now)
-    elapsed_time = models.DurationField()
-    date = models.DateField(default=date.today)
+    start_time = models.DateTimeField(null=True)
+    elapsed_time = models.DurationField(default=timedelta(0), null=True)
+    date = models.DateField(default=date.today, primary_key=True)
     in_work = models.BooleanField(default=False)
 
 
     def __str__(self):
-        return self.date
+        return str(self.date)
+
+
+    def start_working(self):
+        self.in_work = True
+        self.start_time = timezone.now()
+        self.save()
+
+
+    def stop_working(self):
+        self.in_work = False
+        work_time = timezone.now() - self.start_time
+        self.elapsed_time += work_time
+        self.save()
