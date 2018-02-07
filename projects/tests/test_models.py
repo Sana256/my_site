@@ -33,7 +33,7 @@ class ProjectModelTest(ModelTest):
         project1 = Project.objects.create(developer=self.user, name='second project', description='description22', end_date=end_date1)
         end_date2 = datetime.date.today() + datetime.timedelta(days=-2)
         project2 = Project.objects.create(developer=self.user, name='third project', description='description33', end_date=end_date2)
-        self.assertEqual(list(Project.objects.all()), [project1, self.project, project2])
+        self.assertEqual(list(Project.objects.all()), [project2, self.project, project1])
 
 
 class WorkDayModelTest(ModelTest):

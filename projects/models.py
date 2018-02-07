@@ -17,7 +17,7 @@ class Project(models.Model):
 
 
     class Meta:
-        ordering = ('-end_date',)
+        ordering = ('end_date',)
 
 
     def __str__(self):

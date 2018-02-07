@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block description %}
+
+{% endblock %}
+
+{% block keywords %}
+
+{% endblock %}
+
+{% block content %}
+	<p>{{ project.name }}</p>
+	<p>{{ project.start_date }}</p>
+	<p>{{ project.end_date|naturalday}}</p>
+	<p>{{ project.event.in_work }}</p>
+{% endblock %}
