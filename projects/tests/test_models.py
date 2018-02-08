@@ -35,6 +35,9 @@ class ProjectModelTest(ModelTest):
         project2 = Project.objects.create(developer=self.user, name='third project', description='description33', end_date=end_date2)
         self.assertEqual(list(Project.objects.all()), [project2, self.project, project1])
 
+    def test_get_absolute_url(self):
+        self.assertEqual(self.project.get_absolute_url(), f'/projects/{self.project.id}/')
+
 
 class WorkDayModelTest(ModelTest):
 

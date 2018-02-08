@@ -7,6 +7,7 @@ from projects.models import Project
 
 
 class ViewsTest(TestCase):
+    '''basic setup'''
     def setUp(self):
         self.user = User.objects.create_user(username='Sanek', password='qwerty12345')
         self.user2 = User.objects.create_user(username='Vanek', password='ewq321')
@@ -23,27 +24,12 @@ class HomeViewTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
 
-class ProjectsViewTest(TestCase):
-
-    def setUp(self):
-        super().setUp()
-        self.response = self.client.get('/projects/')
-
-
-    def test_response_status_code(self):
-        self.assertEqual(self.response.status_code, 200)
-
-
-    def test_uses_projects_view_template(self):
-        self.assertTemplateUsed(self.response, 'projects_view.html')
-
-
 class ProjectsViewTest(ViewsTest):
 
     def setUp(self):
         super().setUp()
         self.client.login(username='Sanek', password='qwerty12345')
-        self.response = self.client.get(f'/projects/')
+        self.response = self.client.get('/projects/')
 
 
     def test_user_is_login(self):
@@ -68,14 +54,50 @@ class ProjectsViewTest(ViewsTest):
         response = self.client.get('/projects/')
         self.assertRedirects(response, '/accounts/login?next=/projects/', target_status_code=301)
 
-class ProjectViewTest(ViewsTest):
+
+class DetailProjectViewTest(ViewsTest):
 
     def setUp(self):
         super().setUp()
+        self.client.login(username='Sanek', password='qwerty12345')
         self.response = self.client.get(f'/projects/{self.project1.id}/')
+
 
     def test_response_status_code(self):
         self.assertEqual(self.response.status_code, 200)
 
+
     def test_uses_template(self):
         self.assertTemplateUsed(self.response, 'detail_project_view.html')
+
+
+    def test_logout_users_redirects(self):
+        self.client.logout()
+        response = self.client.get(f'/projects/{self.project1.id}/')
+        self.assertRedirects(response, f'/accounts/login?next=/projects/{self.project1.id}/', target_status_code=301)
+
+
+    def test_dispay_only_login_current_user_projects(self):
+        self.assertContains(self.response, 'first project')
+        self.assertNotContains(self.response, 'third project')
+
+
+    def test_not_display_projects_for_another_login_user(self):
+        self.client.logout()
+        self.client.login(username='Vanek', password='ewq321')
+        response = self.client.get(f'/projects/{self.project1.id}/')
+        self.assertEqual(response.status_code, 404)
+
+
+class ProjectCreateViewTest(ViewsTest):
+
+    def setUp(self):
+        super().setUp()
+        self.client.login(username='Sanek', password='qwerty12345')
+
+
+    def test_can_save_post_request(self):
+        response = self.client.post('/projects/add', data={'user': self.user, 'name': 'new project name', 'description': 'new project description'})
+        new_project = Project.objects.filter(name='new project name')
+        print(new_project)
+        self.assertEqual(new_project.name, 'new project name')

@@ -1,16 +1,21 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+
+from projects.forms import CreateProjectForm
 from projects.models import Project
 User = get_user_model()
 
 def home(request):
     return render(request, 'home.html')
 
+
 @method_decorator(login_required, name='dispatch')
 class ProjectsView(ListView):
+    '''display all project for current user'''
 
     template_name = 'projects_view.html'
     context_object_name = 'projects'
@@ -20,7 +25,9 @@ class ProjectsView(ListView):
         return Project.objects.filter(developer=developer)
 
 
+@method_decorator(login_required, name='dispatch')
 class DetailProjectView(DetailView):
+    '''display project overview for current user'''
 
     model = Project
     template_name = 'detail_project_view.html'
@@ -30,3 +37,10 @@ class DetailProjectView(DetailView):
     def get_queryset(self):
         developer = self.request.user
         return Project.objects.filter(developer=developer)
+
+
+@method_decorator(login_required, name='dispatch')
+class ProjectCreateView(CreateView):
+    model = Project
+    form_class = CreateProjectForm
+    template_name = 'project_add.html'

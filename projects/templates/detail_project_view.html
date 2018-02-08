@@ -11,8 +11,25 @@
 {% endblock %}
 
 {% block content %}
-	<p>{{ project.name }}</p>
-	<p>{{ project.start_date }}</p>
-	<p>{{ project.end_date|naturalday}}</p>
-	<p>{{ project.event.in_work }}</p>
+	<h2>{{ project.name }}</h2>
+	<p><b>Description:</b> {{ project.description}}</p>
+	<p><b>Start date:</b> {{ project.start_date }}</p>
+	<p><b>Deadline:</b> {{ project.end_date|naturalday }}</p>
+	<p><b>Events:</b>
+		<ul>
+		{% for event in projects.events %}
+			<li>Next event: {{ project.event.date }}, {{ project.event.name }}</li>
+		{% empty %}
+			<p>No events</p>
+		{% endfor %}
+	</ul>
+  <p><b>Lists:</b></p>
+	<ul>
+		{% for list in projects.lists %}
+			<li>Next event: {{ project.list }}</li>
+		{% empty %}
+			<p>No lists</p>
+		{% endfor %}
+	</ul>
+	<a href='#' class="btn btn-primary">Start working</a>
 {% endblock %}

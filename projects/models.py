@@ -3,10 +3,10 @@ from datetime import date, timedelta
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.urls import reverse
 
 
 class Project(models.Model):
-    #TODO add file stores and image for every project
     developer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='projects')
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=40)
@@ -22,6 +22,10 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
+
+
+    def get_absolute_url(self):
+        return reverse('detail_project_view', kwargs={'pk': self.pk})
 
 
 class List(models.Model):
