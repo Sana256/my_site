@@ -23,9 +23,6 @@ class ProjectsView(ListView):
     def get_queryset(self):
         developer = self.request.user
         return Project.objects.filter(developer=developer)
-        '''queryset = super().get_queryset()
-        return queryset.filter(developer=self.request.user)
-        why use super()?'''
 
 
 @method_decorator(login_required, name='dispatch')
@@ -61,5 +58,5 @@ class ProjectUpdateView(UpdateView):
 
 
     def get_queryset(self):
-        developer = self.request.user
-        return Project.objects.filter(developer=developer)
+        queryset = super().get_queryset()
+        return queryset.filter(developer=self.request.user)
