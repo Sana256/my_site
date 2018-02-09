@@ -120,3 +120,17 @@ class ProjectCreateViewTest(ViewsTest):
         response = self.client.post('/projects/add/', data={'name': ''})
         new_project = Project.objects.order_by('-pk')[0]
         self.assertEqual(Project.objects.count(), 3) # 3 objects create on setup
+
+
+class ProjectUpdateViewTest(ViewsTest):
+
+    def setUp(self):
+        super().setUp()
+        self.client.login(username='Sanek', password='qwerty12345')
+
+
+    def test_can_save_post_request(self):
+        response = self.client.post(f'/projects/{self.project1.id}/update/', data={'name': 'update project name'})
+        update_project = Project.objects.get(pk=self.project1.id)
+        self.assertEqual(update_project.name, 'update project name')
+        #any other fields blank and default
