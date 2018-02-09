@@ -72,7 +72,6 @@
     </div>
 	</nav>
 
-	<div class="container">
 		{% if messages %}
 			<div class="row">
 				<div class="col-md-6 offset-md-3">
@@ -88,10 +87,12 @@
 				</div>
 			</div>
 		{% endif %}
-	{% block content %}
+      <div class="row justify-content-center">
+        {% block content %}
 
-	{% endblock %}
-	</div>
+    	  {% endblock %}
+      </div>
+    </div>
 
 
     <!-- Optional JavaScript -->

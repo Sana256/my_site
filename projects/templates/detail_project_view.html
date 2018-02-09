@@ -11,25 +11,36 @@
 {% endblock %}
 
 {% block content %}
-	<h2>{{ project.name }}</h2>
-	<p><b>Description:</b> {{ project.description}}</p>
-	<p><b>Start date:</b> {{ project.start_date }}</p>
-	<p><b>Deadline:</b> {{ project.end_date|naturalday }}</p>
-	<p><b>Events:</b>
-		<ul>
-		{% for event in projects.events %}
-			<li>Next event: {{ project.event.date }}, {{ project.event.name }}</li>
-		{% empty %}
-			<p>No events</p>
-		{% endfor %}
-	</ul>
-  <p><b>Lists:</b></p>
-	<ul>
-		{% for list in projects.lists %}
-			<li>Next event: {{ project.list }}</li>
-		{% empty %}
-			<p>No lists</p>
-		{% endfor %}
-	</ul>
-	<a href='#' class="btn btn-primary">Start working</a>
+	<div class="col-sm-8 justify-content-center">
+		<div class="card">
+			<div class="card-body">
+				<h3 class="card-title">{{ project.name }}</h3>
+				<p><b>Description:</b> {{ project.description}}</p>
+				<p><b>Start date:</b> {{ project.start_date }}</p>
+				<p><b>Deadline:</b> {{ project.end_date|naturalday }}</p>
+				<p><b>Events:</b>
+					<ul>
+					{% for event in projects.events %}
+						<li>Next event: {{ project.event.date }}, {{ project.event.name }}</li>
+					{% empty %}
+						<p>No events</p>
+					{% endfor %}
+				</ul>
+				<p><b>Lists:</b></p>
+				<ul>
+					{% for list in projects.lists %}
+						<li>list: {{ project.list }}</li>
+					{% empty %}
+						<p>No lists</p>
+					{% endfor %}
+				</ul>
+			<div class="row">
+				<a href='#' class="btn btn-primary">Start working</a>
+				<a href='#' class="btn btn-secondary">Add event</a>
+				<a href='#' class="btn btn-secondary">Add list</a>
+			</div>
+		</div>
+	</div>
+
+	</div>
 {% endblock %}

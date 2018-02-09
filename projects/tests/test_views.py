@@ -4,6 +4,7 @@ from django.contrib.auth import login, get_user_model
 User = get_user_model()
 
 from projects.models import Project
+from projects.forms import CreateProjectForm
 
 
 class ViewsTest(TestCase):
@@ -97,7 +98,25 @@ class ProjectCreateViewTest(ViewsTest):
 
 
     def test_can_save_post_request(self):
-        response = self.client.post('/projects/add', data={'user': self.user, 'name': 'new project name', 'description': 'new project description'})
-        new_project = Project.objects.filter(name='new project name')
-        print(new_project)
+        response = self.client.post('/projects/add/', data={'name': 'new project name'})
+        new_project = Project.objects.order_by('-pk')[0]
         self.assertEqual(new_project.name, 'new project name')
+        self.assertEqual(Project.objects.count(), 4) #3 create on setup
+
+
+    def test_redirect_after_post_date(self):
+        response = self.client.post('/projects/add/', data={'name': 'new project name'})
+        new_project = Project.objects.order_by('-pk')[0]
+        self.assertRedirects(response, f'/projects/{new_project.id}/')
+
+
+    def test_invalid_inputs_renders_add_project_template(self):
+        response = self.client.post('/projects/add/', data={'name': ''})
+        self.assertTemplateUsed(response, 'project_add.html')
+        self.assertIsInstance(response.context['form'], CreateProjectForm)
+
+
+    def test_invalis_inputs_dont_save(self):
+        response = self.client.post('/projects/add/', data={'name': ''})
+        new_project = Project.objects.order_by('-pk')[0]
+        self.assertEqual(Project.objects.count(), 3) # 3 objects create on setup

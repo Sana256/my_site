@@ -7,12 +7,12 @@ from django.urls import reverse
 
 
 class Project(models.Model):
-    developer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='projects')
+    developer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='projects')
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=40)
-    description = models.CharField(max_length=100)
-    start_date = models.DateField(default=date.today)
-    end_date = models.DateField(default=date.today)
+    description = models.CharField(max_length=100, blank=True)
+    start_date = models.DateField(default=date.today, blank=True)
+    end_date = models.DateField(default=date.today, blank=True)
     in_work = models.BooleanField(default=False)
 
 

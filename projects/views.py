@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from projects.forms import CreateProjectForm
+from projects.forms import CreateProjectForm, UpdateProjectForm
 from projects.models import Project
 User = get_user_model()
 
@@ -44,3 +44,19 @@ class ProjectCreateView(CreateView):
     model = Project
     form_class = CreateProjectForm
     template_name = 'project_add.html'
+
+    def form_valid(self, form):
+        form.instance.developer = self.request.user
+        return super().form_valid(form)
+
+
+@method_decorator(login_required, name='dispatch')
+class ProjectUpdateView(UpdateView):
+    model = Project
+    form_class = UpdateProjectForm
+    template_name = 'project_update.html'
+
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(developer=self.request.user)
