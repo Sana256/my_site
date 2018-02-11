@@ -25,7 +25,7 @@ class Project(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse('detail_project_view', kwargs={'pk': self.pk})
+        return reverse('project_detail_view', kwargs={'pk': self.pk})
 
 
 class List(models.Model):

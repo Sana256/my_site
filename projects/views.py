@@ -26,11 +26,11 @@ class ProjectsView(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-class DetailProjectView(DetailView):
+class ProjectDetailView(DetailView):
     '''display project overview for current user'''
 
     model = Project
-    template_name = 'detail_project_view.html'
+    template_name = 'project_detail_view.html'
     context_object_name = 'project'
 
 
@@ -56,6 +56,9 @@ class ProjectUpdateView(UpdateView):
     form_class = UpdateProjectForm
     template_name = 'project_update.html'
 
+    '''def form_valid(self, form):
+        form.instance.developer = self.request.user
+        return super().form_valid(form)'''
 
     def get_queryset(self):
         queryset = super().get_queryset()

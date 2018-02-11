@@ -56,7 +56,7 @@ class ProjectsViewTest(ViewsTest):
         self.assertRedirects(response, '/accounts/login?next=/projects/', target_status_code=301)
 
 
-class DetailProjectViewTest(ViewsTest):
+class ProjectDetailViewTest(ViewsTest):
 
     def setUp(self):
         super().setUp()
@@ -69,7 +69,7 @@ class DetailProjectViewTest(ViewsTest):
 
 
     def test_uses_template(self):
-        self.assertTemplateUsed(self.response, 'detail_project_view.html')
+        self.assertTemplateUsed(self.response, 'project_detail_view.html')
 
 
     def test_logout_users_redirects(self):
@@ -133,4 +133,15 @@ class ProjectUpdateViewTest(ViewsTest):
         response = self.client.post(f'/projects/{self.project1.id}/update/', data={'name': 'update project name'})
         update_project = Project.objects.get(pk=self.project1.id)
         self.assertEqual(update_project.name, 'update project name')
-        #any other fields blank and default
+        self.assertEqual(update_project.developer.username, 'Sanek')
+
+
+    def test_invalid_inputs_render_update_project_template(self):
+        response = self.client.post(f'/projects/{self.project1.id}/update/', data={'name': ''})
+        self.assertTemplateUsed(response, 'project_update.html')
+
+
+    def test_invalid_inputs_not_save(self):
+        response = self.client.post(f'/projects/{self.project1.id}/update/', data={'name': ''})
+        project = Project.objects.get(pk=self.project1.id)
+        self.assertEqual(project.name, 'first project')

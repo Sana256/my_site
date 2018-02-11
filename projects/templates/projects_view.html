@@ -27,7 +27,7 @@
 				</thead>
 				<tbody>
 					{% for project in projects %}
-						<tr onclick="window.location='{% url 'detail_project_view' project.id %}';">
+						<tr onclick="window.location='{% url 'project_detail_view' project.id %}';">
 							<td>{{ project.name }}</td>
 							<td>{{ project.start_date }}</td>
 							<td>{{ project.end_date|naturalday}}</td>

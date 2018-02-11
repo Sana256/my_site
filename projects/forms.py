@@ -8,7 +8,7 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ['name', 'start_date', 'end_date', 'description', 'customer']
-        widgets = {'description': forms.fields.TextInput(attrs={'placeholder': 'Enter description', 'start_date': forms.widgets.DateInput(attrs={'type': 'date'}), 'end_date': forms.widgets.DateInput(attrs={'type': 'date'})})}
+        widgets = {'description': forms.fields.TextInput(attrs={'placeholder': 'Enter description'}), 'start_date': forms.widgets.DateInput(attrs={'type': 'date'}), 'end_date': forms.widgets.DateInput(attrs={'type': 'date'})}
 
 
 class CreateProjectForm(ProjectForm):
@@ -16,4 +16,6 @@ class CreateProjectForm(ProjectForm):
 
 
 class UpdateProjectForm(ProjectForm):
-    pass
+    
+    class Meta(ProjectForm.Meta):
+        pass

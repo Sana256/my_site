@@ -112,7 +112,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'site_db',
         'USER': 'postgres',
-        'PASSWORD': 'Donskoy87',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '',
 
@@ -126,6 +126,8 @@ DATE_FORMAT = 'd.m.Y'
 TIME_FORMAT = 'p'
 
 DATETIME_FORMAT = 'd.m.Y p'
+
+DATE_INPUT_FORMATS = ['%d.%m.%Y', '%d,%m,%Y',]
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
